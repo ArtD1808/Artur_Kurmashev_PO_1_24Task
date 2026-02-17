@@ -1,0 +1,237 @@
+using System;
+using System.Globalization;
+
+class Program
+{
+    static void Main()
+    {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+        Console.WriteLine("1 – Online Store Order");
+        Console.WriteLine("2 – Cinema Ticket");
+        Console.WriteLine("3 – Gym Membership");
+
+        int choice = ReadInt("Choose 1 of 3 topics (1-3): ", min: 1, max: 3);
+        Console.WriteLine();
+
+        switch (choice)
+        {
+            case 1:
+                OnlineStoreOrder();
+                break;
+            case 2:
+                CinemaTicket();
+                break;
+            case 3:
+                GymMembership();
+                break;
+        }
+
+        Console.WriteLine("\nDone. Press Enter to exit...");
+        Console.ReadLine();
+    }
+
+    // -------------------- Option 1 --------------------
+    static void OnlineStoreOrder()
+    {
+        Console.WriteLine("Option 1 — Online Store Order\n");
+
+        string productName = ReadString("1) Product Name: ");
+        int quantity = ReadInt("2) Quantity: ", min: 0);
+        double pricePerItem = ReadDouble("3) Price per Item: ", min: 0);
+        double discountPercent = ReadDouble("4) Discount Percentage: ", min: 0, max: 100);
+        double distanceKm = ReadDouble("5) Delivery Distance in km: ", min: 0);
+        char paymentLetter = ReadChar("6) First Letter of Payment Method: ");
+        bool isExpress = ReadBool("7) Is Express Delivery (true/false, yes/no, 1/0, да/нет): ");
+
+        // Calculations (as in my earlier version)
+        double totalPrice = quantity * pricePerItem;
+        double discountAmount = totalPrice * (discountPercent / 100.0);
+        double finalPrice = totalPrice - discountAmount;
+
+        Console.WriteLine("\n--- Entered values ---");
+        Console.WriteLine($"Product Name: {productName}");
+        Console.WriteLine($"Quantity: {quantity}");
+        Console.WriteLine($"Price per Item: {pricePerItem}");
+        Console.WriteLine($"Discount Percentage: {discountPercent}%");
+        Console.WriteLine($"Delivery Distance: {distanceKm} km");
+        Console.WriteLine($"Payment Method Letter: {paymentLetter}");
+        Console.WriteLine($"Express Delivery: {isExpress}");
+
+        Console.WriteLine("\n--- Calculations ---");
+        Console.WriteLine($"Total price (Quantity * Price): {totalPrice}");
+        Console.WriteLine($"Discount amount: {discountAmount}");
+        Console.WriteLine($"Final price after discount: {finalPrice}");
+
+        Console.WriteLine("\n--- Data types (GetType) ---");
+        Console.WriteLine($"quantity type: {quantity.GetType()}");
+        Console.WriteLine($"pricePerItem type: {pricePerItem.GetType()}");
+        Console.WriteLine($"isExpress type: {isExpress.GetType()}");
+    }
+
+    // -------------------- Option 2 --------------------
+    static void CinemaTicket()
+    {
+        Console.WriteLine("Option 2 — Cinema Ticket\n");
+
+        string movieTitle = ReadString("1) Movie Title: ");
+        int ticketCount = ReadInt("2) Number of Tickets: ", min: 0);
+        double pricePerTicket = ReadDouble("3) Price per Ticket: ", min: 0);
+        double durationHours = ReadDouble("4) Duration of Movie in hours: ", min: 0);
+        int screenNumber = ReadInt("5) Screen Number: ", min: 0);
+        char seatRowLetter = ReadChar("6) First Letter of Seat Row: ");
+        bool is3D = ReadBool("7) Is 3D Movie (true/false, yes/no, 1/0, да/нет): ");
+
+        double totalCost = ticketCount * pricePerTicket;
+        double costPerHour = durationHours > 0 ? totalCost / durationHours : 0;
+
+        Console.WriteLine("\n--- Entered values ---");
+        Console.WriteLine($"Movie Title: {movieTitle}");
+        Console.WriteLine($"Number of Tickets: {ticketCount}");
+        Console.WriteLine($"Price per Ticket: {pricePerTicket}");
+        Console.WriteLine($"Duration (hours): {durationHours}");
+        Console.WriteLine($"Screen Number: {screenNumber}");
+        Console.WriteLine($"Seat Row Letter: {seatRowLetter}");
+        Console.WriteLine($"Is 3D: {is3D}");
+
+        Console.WriteLine("\n--- Calculations ---");
+        Console.WriteLine($"Total ticket cost: {totalCost}");
+        Console.WriteLine($"Cost per hour of movie: {costPerHour}");
+
+        Console.WriteLine("\n--- Data types (GetType) ---");
+        Console.WriteLine($"ticketCount type: {ticketCount.GetType()}");
+        Console.WriteLine($"durationHours type: {durationHours.GetType()}");
+        Console.WriteLine($"seatRowLetter type: {seatRowLetter.GetType()}");
+    }
+
+    // -------------------- Option 3 --------------------
+    static void GymMembership()
+    {
+        Console.WriteLine("Option 3 — Gym Membership\n");
+
+        string membershipType = ReadString("1) Membership Type: ");
+        int months = ReadInt("2) Number of Months: ", min: 0);
+        double monthlyFee = ReadDouble("3) Monthly Fee: ", min: 0);
+        double trainerFee = ReadDouble("4) Personal Trainer Fee: ", min: 0);
+        double heightMeters = ReadDouble("5) Height in meters: ", min: 0);
+        char trainerLetter = ReadChar("6) First Letter of Trainer Name: ");
+        bool isPremium = ReadBool("7) Is Premium Access (true/false, yes/no, 1/0, да/нет): ");
+
+        double totalMembershipCost = months * monthlyFee;
+        double totalWithTrainer = totalMembershipCost + trainerFee;
+
+        Console.WriteLine("\n--- Entered values ---");
+        Console.WriteLine($"Membership Type: {membershipType}");
+        Console.WriteLine($"Number of Months: {months}");
+        Console.WriteLine($"Monthly Fee: {monthlyFee}");
+        Console.WriteLine($"Trainer Fee: {trainerFee}");
+        Console.WriteLine($"Height (m): {heightMeters}");
+        Console.WriteLine($"Trainer Letter: {trainerLetter}");
+        Console.WriteLine($"Premium Access: {isPremium}");
+
+        Console.WriteLine("\n--- Calculations ---");
+        Console.WriteLine($"Total membership cost: {totalMembershipCost}");
+        Console.WriteLine($"Total cost including trainer fee: {totalWithTrainer}");
+
+        Console.WriteLine("\n--- Data types (GetType) ---");
+        Console.WriteLine($"months type: {months.GetType()}");
+        Console.WriteLine($"monthlyFee type: {monthlyFee.GetType()}");
+        Console.WriteLine($"isPremium type: {isPremium.GetType()}");
+    }
+
+    // -------------------- Safe input helpers --------------------
+    static string ReadString(string prompt)
+    {
+        while (true)
+        {
+            Console.Write(prompt);
+            string? s = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(s)) return s.Trim();
+            Console.WriteLine("Please enter a non-empty value.");
+        }
+    }
+
+    static int ReadInt(string prompt, int? min = null, int? max = null)
+    {
+        while (true)
+        {
+            Console.Write(prompt);
+            string? s = Console.ReadLine();
+
+            if (int.TryParse(s, out int value))
+            {
+                if (min.HasValue && value < min.Value)
+                {
+                    Console.WriteLine($"Value must be >= {min.Value}.");
+                    continue;
+                }
+                if (max.HasValue && value > max.Value)
+                {
+                    Console.WriteLine($"Value must be <= {max.Value}.");
+                    continue;
+                }
+                return value;
+            }
+
+            Console.WriteLine("Invalid integer. Try again.");
+        }
+    }
+
+    static double ReadDouble(string prompt, double? min = null, double? max = null)
+    {
+        while (true)
+        {
+            Console.Write(prompt);
+            string? s = Console.ReadLine();
+
+            // Accept both "." and "," as decimal separator
+            s = (s ?? "").Trim().Replace(',', '.');
+
+            if (double.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out double value))
+            {
+                if (min.HasValue && value < min.Value)
+                {
+                    Console.WriteLine($"Value must be >= {min.Value}.");
+                    continue;
+                }
+                if (max.HasValue && value > max.Value)
+                {
+                    Console.WriteLine($"Value must be <= {max.Value}.");
+                    continue;
+                }
+                return value;
+            }
+
+            Console.WriteLine("Invalid number. Try again.");
+        }
+    }
+
+    static char ReadChar(string prompt)
+    {
+        while (true)
+        {
+            Console.Write(prompt);
+            string? s = Console.ReadLine();
+            s = (s ?? "").Trim();
+            if (s.Length >= 1) return s[0];
+            Console.WriteLine("Please enter at least one character.");
+        }
+    }
+
+    static bool ReadBool(string prompt)
+    {
+        while (true)
+        {
+            Console.Write(prompt);
+            string? s = Console.ReadLine();
+            s = (s ?? "").Trim().ToLowerInvariant();
+
+            if (s == "true" || s == "t" || s == "yes" || s == "y" || s == "1" || s == "да")
+                return true;
+
+            if (s == "false" || s == "f" || s == "no" || s == "n" || s == "0" || s == "нет")
+                return false;
+
+            Console.WriteLine("Invalid boolean. Enter true/false, yes/no, 1/0, да/нет.");
+        }
+    }
+}
